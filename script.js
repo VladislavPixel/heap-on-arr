@@ -205,6 +205,31 @@ class Heap {
 		}
 	};
 
+	change(index, newPriority) {
+		// Метод повышает или понижает приоритет значения под конкретным индексом
+		// В этой реализации приоритет завязан на самом числе, которое хранится в массиве
+		if (this.isEmpty()) {
+			throw new Error('Heap is empty... Operation change(index, newPriority) is not supported.');
+		}
+
+		if (index < 0 || index >= this.#length) {
+			throw new Error('Invalid index.');
+		}
+
+		const saveOldPriority = this.#data[index];
+
+		this.#data[index] = newPriority;
+
+		if (saveOldPriority > newPriority) {
+			this.#goDown(index);
+
+		} else {
+			this.#goUp(index);
+		}
+
+		return true;
+	};
+
 	draw() {
 		if (this.isEmpty()) {
 			console.log(`Heap is empty... There is nothing to draw. Current length heap: ${this.#length}`);
@@ -263,5 +288,8 @@ heap.toss(90);
 heap.toss(53);
 
 heap.restoreHeap();
+
+heap.change(4, 7);
+heap.change(3, 333);
 
 heap.draw();
